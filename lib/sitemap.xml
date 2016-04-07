@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   {% capture site_url %}{% if site.url %}{{ site.url | append: site.baseurl }}{% else %}{{ site.github.url }}{% endif %}{% endcapture %}
-  {% for page in site.html_pages %}{% unless page.sitemap == false %}
+  {% for page in site.html_pages | sort: 'order' %}{% unless page.sitemap == false %}
   <url>
     <loc>{{ page.url | replace:'/index.html','/' | prepend: site_url | uri_escape }}</loc>
     {% if page.last_modified_at %}
@@ -33,7 +33,7 @@
     <lastmod>{{ file.modified_time | date_to_xmlschema }}</lastmod>
   </url>
   {% endfor %}
-  {% for post in site.posts %}{% unless post.sitemap == false %}
+  {% for post in site.posts reversed | sort: 'date' %}{% unless post.sitemap == false %}
   <url>
     <loc>{{ post.url | prepend: site_url | uri_escape }}</loc>
     {% if post.last_modified_at %}
